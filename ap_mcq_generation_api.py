@@ -144,14 +144,6 @@ question_json_structure = '''{
       "lo_code_specific_to_this_question": "string",
       "task_verb": "string",
       "difficulty": "integer"
-    },
-    {
-      "question_number": 3,
-      "question_text": "string",
-      "ek_code_specific_to_this_question": "string",
-      "lo_code_specific_to_this_question": "string",
-      "task_verb": "string",
-      "difficulty": "integer"
     }
   ]
 }'''
@@ -254,8 +246,8 @@ The assessment is to test whether students read this <article>{request_data.arti
 +Use task verbs from <blooms>{blooms}</blooms> to write exactly three questions that will prove a student can connect the article information to their understanding
 +Read these <questions>{request_data.current_question_bank}</questions> that are already on the assessment to ensure you do not write a duplicate question.
 +Follow these specific <criteria>{qcriteria}</criteria>
-+You must write all 3 questions without using and to create compund questions.
-+Ask the 3 questions in the format "which" "what" "how" "why"  etc
++You must write the 2 questions without using and to create compund questions.
++Ask the 2 questions in the format "which" "what" "how" "why"  etc
 +For each question, specify which ek_code and lo_code it addresses from <ek>{request_data.ek_codes}</ek> and <lo>{request_data.lo_codes}</lo>
 +Do not refer to the article in the question. students know where the questions come from.
 +All questions in this set should have difficulty: {difficulty}
@@ -383,7 +375,7 @@ def format_mcq(question: Question, correct_answer: str,
 
 def update_question_numbers(questions: List[Question], difficulty: int) -> List[Question]:
     """Update question numbers based on difficulty level"""
-    offset = (difficulty - 1) * 3  # 0 for diff 1, 3 for diff 2, 6 for diff 3
+    offset = (difficulty - 1) * 2  # 0 for diff 1, 2 for diff 2, 4 for diff 3
     updated_questions = []
     for i, q in enumerate(questions, 1):
         q_dict = q.dict()
@@ -423,11 +415,11 @@ def generate_question_bank(request: QuestionRequest):
             for diff in sorted(difficulty_questions.keys()):
                 all_questions.extend(difficulty_questions[diff])
 
-        # Verify we have 9 questions
-        if len(all_questions) != 9:
+        # Verify we have 6 questions
+        if len(all_questions) != 6:
             raise HTTPException(
                 status_code=500,
-                detail=f"Expected 9 questions but got {len(all_questions)}"
+                detail=f"Expected 6 questions but got {len(all_questions)}"
             )
 
         # Create a mapping of question numbers to questions for easy lookup
@@ -506,11 +498,11 @@ def generate_question_bank(request: QuestionRequest):
                 print(f"Error formatting MCQ for question {q_num}: {str(e)}")
                 raise
 
-        # Verify final question bank has 9 questions
-        if len(question_bank) != 9:
+        # Verify final question bank has 6 questions
+        if len(question_bank) != 6:
             raise HTTPException(
                 status_code=500,
-                detail=f"Final question bank has {len(question_bank)} questions instead of 9"
+                detail=f"Final question bank has {len(question_bank)} questions instead of 6"
             )
         
         return QuestionBankResponse(questionBank=question_bank)
