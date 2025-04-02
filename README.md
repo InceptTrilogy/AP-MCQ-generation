@@ -3,10 +3,10 @@
 Hosted at https://api-mcq-generation.onrender.com
 
 ## Overview
-An API that automatically generates AP Biology multiple-choice questions based on provided article content. The system generates a comprehensive set of 18 questions across three difficulty levels, complete with correct answers, distractors, and explanations.
+An API that automatically generates AP Biology multiple-choice questions based on provided article content. The system generates a comprehensive set of 6 questions across three difficulty levels, complete with correct answers, distractors, and explanations.
 
 ## Features
-- Generates 18 high-quality MCQs (6 each at three difficulty levels)
+- Generates 6 high-quality MCQs (2 each at three difficulty levels)
 - Questions aligned with AP Biology EK and LO codes
 - Each question includes:
   - Question text
